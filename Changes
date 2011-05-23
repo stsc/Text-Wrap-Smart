@@ -1,0 +1,44 @@
+Revision history for Perl extension Text::Wrap::Smart.
+
+0.6 Fri Jan 25 22:36:50 CET 2008
+
+ - Refactored wrap_smart() by dividing the core code into
+   two subs suitable for fuzzy and exact wrapping.
+
+ - Removed comments, because the code is mostly obvious.
+
+ - Added a test-file which tests exact wrapping.
+
+ - Renamed no_split.t to fuzzy_wrap.t.
+
+ - Reworded documentation.
+
+0.5 Sat Mar 10 13:30:44 CET 2007
+
+ - Localised $/ within wrap_smart().
+
+0.4 Wed Mar  7 19:29:27 CET 2007
+
+ - Commented Text/Wrap/Smart.pm.
+
+ - Added no_split.t to testsuite which tests that an
+   according amount of substrings with specific length
+   is returned.
+
+0.3 Sun Dec 17 21:48:49 CET 2006
+
+ - Fixed broken splitting of lines.
+
+ - In case the input string doesn't consist of whitespaces,
+   revert to splitting without taking care of blanks.
+
+0.2 Sun Dec 17 03:44:11 CET 2006
+
+ - Added "smart" breaking up of text strings into
+   according chunks.
+
+ - Documented wrap_smart()'s options hash.
+
+0.1 Thu Dec 14 20:23:20 CET 2006
+
+ - Initial version.
