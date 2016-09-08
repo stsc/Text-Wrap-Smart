@@ -1,5 +1,29 @@
 Revision history for Perl extension Text::Wrap::Smart.
 
+0.6_01  2016-09-06  <schubiger@cpan.org>
+
+ - Major code/tests refactoring.
+
+ - Amend documentation to reflect code changes.
+
+ - Deprecate wrap_smart().
+
+ - Add two functions: exact_wrap() and fuzzy_wrap().
+
+ - Add metadata repository link.
+
+ - Update license link.
+
+ - Validation of arguments is now handled by Params::Validate.
+
+ - Use the "boolean" pragma for true/false values.
+
+ - Do no longer recommend Test::Pod and Test::Pod::Coverage.
+
+ - Skip documentation tests for non-release testing.
+
+ - Remove the testing diagnostic.
+
 0.6 Fri Jan 25 22:36:50 CET 2008
 
  - Refactored wrap_smart() by dividing the core code into

@@ -3,58 +3,80 @@
 use strict;
 use warnings;
 
-use Test::More tests => 4;
-use Text::Wrap::Smart qw(wrap_smart);
+use Test::More tests => 4 * 2;
+use Text::Wrap::Smart qw(exact_wrap wrap_smart);
+
+my $join = sub { local $_ = shift; chomp; s/\n/ /g; $_ };
+
+my $text = $join->(<<'EOT');
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+Curabitur vel diam nec nisi pellentesque gravida a sit amet
+metus. Fusce non volutpat arcu. Lorem ipsum dolor sit amet,
+consectetur adipiscing elit. Donec euismod, dolor eget placerat
+euismod, massa risus ultricies metus, id commodo cras amet.
+EOT
 
 my @expected = (
-    [
-      'abcdefghijklmnopqrstuvwxyz ' x 5,
-      'abcdefghijklmnopqrstuvwxyz ' x 5, ],
-    [ 'abcdefghijklmnopqrstuvwxyz abc',
-      'defghijklmnopqrstuvwxyz abcdef',
-      'ghijklmnopqrstuvwxyz abcdefghi',
-      'jklmnopqrstuvwxyz abcdefghijkl',
-      'mnopqrstuvwxyz abcdefghijklmno',
-      'pqrstuvwxyz abcdefghijklmnopqr',
-      'stuvwxyz abcdefghijklmnopqrstu',
-      'vwxyz abcdefghijklmnopqrstuvwx',
-      'yz abcdefghijklmnopqrstuvwxyz ',  ],
+    [ $join->(<<'EOT'),
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+Curabitur vel diam nec nisi pellentesque gravida a sit amet
+metus. Fusce non volutpat arcu. L
+EOT
+    , $join->(<<'EOT'),
+orem ipsum dolor sit amet, consectetur adipiscing elit. Donec
+euismod, dolor eget placerat euismod, massa risus ultricies
+metus, id commodo cras amet.
+EOT
+    ],
+    [ 'Lorem ipsum dolor sit amet, co',
+      'nsectetur adipiscing elit. Cur',
+      'abitur vel diam nec nisi pelle',
+      'ntesque gravida a sit amet met',
+      'us. Fusce non volutpat arcu. L',
+      'orem ipsum dolor sit amet, con',
+      'sectetur adipiscing elit. Done',
+      'c euismod, dolor eget placerat',
+      ' euismod, massa risus ultricie',
+      's metus, id commodo cras amet.', ],
 );
 
-# Contains four fields: text to be wrapped, expected result,
-# amount of substrings expected and the maximum size of a chunk.
-my @args = (
-    [ 'abcdefghijklmnopqrstuvwxyz ' x 10, $expected[0], 2,  0 ],
-    [ 'abcdefghijklmnopqrstuvwxyz ' x 10, $expected[1], 9, 30 ],
+my @entries = (
+    [ $text, $expected[0],  2,  0 ],
+    [ $text, $expected[1], 10, 30 ],
 );
 
-foreach my $args (@args) {
-    test_wrap($args);
+foreach my $entry (@entries) {
+    test_wrap(@$entry);
+    test_wrap_deprecated(@$entry);
 }
 
 sub test_wrap
 {
-    my ($args) = @_;
+    my ($text, $expected, $count, $wrap_at) = @_;
 
-    my $text         = $args->[0];
-    my $expected     = $args->[1];
-    my $count        = $args->[2];
-    my $max_msg_size = $args->[3];
+    my @strings = exact_wrap($text, $wrap_at);
+
+    my $length = $wrap_at ? $wrap_at : 'default';
+    my $message = "(wrapping length: $length) [ordinary]";
+
+    is(@strings, $count, "$message amount of substrings");
+    is_deeply(\@strings, $expected, "$message splitted at word boundary");
+}
+
+sub test_wrap_deprecated
+{
+    my ($text, $expected, $count, $wrap_at) = @_;
+
+    local $SIG{__WARN__} = sub { warn @_ unless $_[0] =~ /deprecated/ };
 
     my %opts;
-    $opts{max_msg_size} = $max_msg_size
-      if $max_msg_size > 0;
+    $opts{max_msg_size} = $wrap_at if $wrap_at > 0;
 
     my @strings = wrap_smart($text, \%opts);
 
-    my $msg_size = $opts{max_msg_size} ? $opts{max_msg_size} : 'default';
-    my $msg_size_text = "(msg size: $msg_size)";
+    my $length = $wrap_at ? $wrap_at : 'default';
+    my $message = "(wrapping length: $length) [deprecated]";
 
-    my @msg = (
-        "$msg_size_text correct amount of substrings",
-        "$msg_size_text splitted at word boundary",
-    );
-
-    is(scalar @strings, $count, $msg[0]);
-    is_deeply(\@strings, \@$expected, $msg[1]);
+    is(@strings, $count, "$message amount of substrings");
+    is_deeply(\@strings, $expected, "$message splitted at word boundary");
 }

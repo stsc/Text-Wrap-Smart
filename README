@@ -1,35 +1,61 @@
 NAME
-    Text::Wrap::Smart - Wrap text into chunks of (mostly) equal length
+    Text::Wrap::Smart - Wrap text into chunks of similar length
 
 SYNOPSIS
-     use Text::Wrap::Smart qw(wrap_smart);
+     use Text::Wrap::Smart ':all';
+     # or
+     use Text::Wrap::Smart qw(exact_wrap fuzzy_wrap wrap_smart);
 
-     $text = "..."; # random length
+     @chunks = exact_wrap($text, $wrap_at);
+     @chunks = fuzzy_wrap($text, $wrap_at);
 
-     # example options
-     %options = (
-                 no_split => 1,
-                 max_msg_size => 160,
-                );
-
-     @chunks = wrap_smart($text, \%options);
+     @chunks = wrap_smart($text, \%options); # DEPRECATED
 
 DESCRIPTION
-    "Text::Wrap::Smart" was primarly developed to split an overly long SMS
-    message into chunks of mostly equal size. The distribution's
-    "wrap_smart()" may nevertheless be suitable for other purposes.
+    `Text::Wrap::Smart' is the pure perl companion of
+    `Text::Wrap::Smart::XS'.
 
 FUNCTIONS
-  wrap_smart
+  exact_wrap
+     @chunks = exact_wrap($text [, $wrap_at ]);
+
+    Wrap a text of varying length into exact chunks (except the last one,
+    which consists of the remaining text).
+
+    Optionally a wrapping length may be specified; if no length is supplied,
+    a default of 160 will be assumed.
+
+  fuzzy_wrap
+     @chunks = fuzzy_wrap($text [, $wrap_at ]);
+
+    Wrap a text of varying length into chunks of fuzzy length (the boundary
+    is normally calculated from the last whitespace preceding the wrapping
+    length, and if no remaining whitespace could be found the end of text;
+    if the wrapping length is smaller than the size of a word, greedy
+    wrapping will be applied: all characters until the first whitespace
+    encountered form a chunk).
+
+    Optionally a wrapping length may be specified; if no length is supplied,
+    a default of 160 will be assumed.
+
+  wrap_smart (DEPRECATED)
      @chunks = wrap_smart($text [, { options } ]);
 
-    "options" may contain the "no_split" option indicating that words shall
-    not be broken up which indicates 'fuzzy wrapping` (if "no_split" is
-    undefined, 'exact wrapping` will be applied). "max_msg_size" sets the
-    character length boundary for each chunk emitted.
+    The `options' hash reference may contain the `no_split' option which
+    specifies that words shall not be broken up (i.e., fuzzy wrapping); if
+    `no_split' is not set, exact wrapping will be applied). The
+    `max_msg_size' option used to set the character length boundary for each
+    chunk emitted, but has been changed to set the wrapping length now.
+
+EXPORT
+  Functions
+    `exact_wrap(), fuzzy_wrap() and wrap_smart()' are exportable.
+
+  Tags
+    `:all - *()'
 
 SEE ALSO
-    Text::Wrap
+    Text::Wrap, Text::Wrap::Smart::XS
 
 AUTHOR
     Steven Schubiger <schubiger@cpan.org>
@@ -38,5 +64,5 @@ LICENSE
     This program is free software; you may redistribute it and/or modify it
     under the same terms as Perl itself.
 
-    See <http://www.perl.com/perl/misc/Artistic.html>
+    See http://dev.perl.org/licenses/
 
