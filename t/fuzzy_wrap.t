@@ -4,7 +4,7 @@ use strict;
 use warnings;
 use boolean qw(true);
 
-use Test::More tests => 16 * 2;
+use Test::More tests => 20 * 2;
 use Text::Wrap::Smart qw(fuzzy_wrap wrap_smart);
 
 my $join = sub { local $_ = shift; chomp; s/\n/ /g; $_ };
@@ -133,6 +133,31 @@ sub test_wrap_deprecated
 
     my $length = $wrap_at ? $wrap_at : 'default';
     my $message = "(wrapping length: $length) [deprecated]";
+
+    is(@strings, $count, "$message amount of substrings");
+    is_deeply(\@strings, $expected, "$message splitted at word boundary");
+}
+
+my $expected = [qw(foo bar)];
+
+@entries = (
+    [ "foo\tbar", $expected, 2, 1 ],
+    [ "foo\nbar", $expected, 2, 1 ],
+    [ "foo\fbar", $expected, 2, 1 ],
+    [ "foo\rbar", $expected, 2, 1 ],
+);
+
+foreach my $entry (@entries) {
+    test_wrap_whitespace(@$entry);
+}
+
+sub test_wrap_whitespace
+{
+    my ($text, $expected, $count, $wrap_at) = @_;
+
+    my @strings = fuzzy_wrap($text, $wrap_at);
+
+    my $message = '(wrapping length: greedy) [whitespace]';
 
     is(@strings, $count, "$message amount of substrings");
     is_deeply(\@strings, $expected, "$message splitted at word boundary");

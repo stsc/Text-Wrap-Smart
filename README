@@ -54,6 +54,14 @@ EXPORT
   Tags
     `:all - *()'
 
+BUGS & CAVEATS
+    The wrapping length will not be applied directly, but is used to
+    calculate the average length to split text into chunks.
+
+    Text will be normalized prior to being processed, i.e. leading and
+    trailing whitespace will be chopped off before each remaining whitespace
+    is converted to a literal space.
+
 SEE ALSO
     Text::Wrap, Text::Wrap::Smart::XS
 

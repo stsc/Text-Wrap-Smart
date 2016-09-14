@@ -12,7 +12,7 @@ use Params::Validate ':all';
 our ($VERSION, @EXPORT_OK, %EXPORT_TAGS);
 my @subs;
 
-$VERSION = '0.6_01';
+$VERSION = '0.6_02';
 @subs = qw(exact_wrap fuzzy_wrap wrap_smart);
 @EXPORT_OK = @subs;
 %EXPORT_TAGS = ('all' => [ @subs ]);
@@ -87,12 +87,12 @@ sub _fuzzy_wrap
         local $_ = $text;
         s/^\s+//;
         s/\s+$//;
-        s/\s{2,}/ /g;
+        s/\s+/ /g;
         $_
     };
 
       my @spaces;
-    push @spaces, pos $text while $text =~ /(?=\s)/g;
+    push @spaces, pos $text while $text =~ /(?= )/g;
 
     my $pos          = $average;
     my $start_offset = 0;
@@ -128,7 +128,7 @@ sub _fuzzy_wrap
     my $begin = $start_offset;
     foreach my $offset (@offsets) {
         my $range = $offset - $begin;
-        if ($text =~ /\G(.{$range})\s(?=\S)/g) {
+        if ($text =~ /\G(.{$range}) (?=\S)/g) {
             push @chunks, $1;
         }
         $begin = $offset + $skip_space;
@@ -229,6 +229,15 @@ C<exact_wrap(), fuzzy_wrap() and wrap_smart()> are exportable.
 =head2 Tags
 
 C<:all - *()>
+
+=head1 BUGS & CAVEATS
+
+The wrapping length will not be applied directly, but is used
+to calculate the average length to split text into chunks.
+
+Text will be normalized prior to being processed, i.e. leading
+and trailing whitespace will be chopped off before each remaining
+whitespace is converted to a literal space.
 
 =head1 SEE ALSO
 

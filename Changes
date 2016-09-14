@@ -1,5 +1,11 @@
 Revision history for Perl extension Text::Wrap::Smart.
 
+0.6_02  2016-09-14  <schubiger@cpan.org>
+
+ - Convert whitespace to literal space; add tests.
+
+ - Add BUGS & CAVEATS section to documentation.
+
 0.6_01  2016-09-06  <schubiger@cpan.org>
 
  - Major code/tests refactoring.

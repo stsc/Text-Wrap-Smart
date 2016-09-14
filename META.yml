@@ -16,7 +16,7 @@ name: Text-Wrap-Smart
 provides:
   Text::Wrap::Smart:
     file: lib/Text/Wrap/Smart.pm
-    version: 0.6_01
+    version: 0.6_02
 requires:
   Math::BigFloat: '0'
   Params::Validate: '0'
@@ -24,5 +24,5 @@ requires:
 resources:
   license: http://dev.perl.org/licenses/
   repository: https://github.com/stsc/Text-Wrap-Smart
-version: 0.6_01
+version: 0.6_02
 x_serialization_backend: 'CPAN::Meta::YAML version 0.012'
