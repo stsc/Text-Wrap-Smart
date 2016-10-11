@@ -35,7 +35,7 @@
    "provides" : {
       "Text::Wrap::Smart" : {
          "file" : "lib/Text/Wrap/Smart.pm",
-         "version" : "0.6_02"
+         "version" : "0.6_03"
       }
    },
    "release_status" : "testing",
@@ -47,6 +47,6 @@
          "url" : "https://github.com/stsc/Text-Wrap-Smart"
       }
    },
-   "version" : "0.6_02",
+   "version" : "0.6_03",
    "x_serialization_backend" : "JSON::PP version 2.27203"
 }

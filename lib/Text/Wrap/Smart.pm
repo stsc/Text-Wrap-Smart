@@ -12,7 +12,7 @@ use Params::Validate ':all';
 our ($VERSION, @EXPORT_OK, %EXPORT_TAGS);
 my @subs;
 
-$VERSION = '0.6_02';
+$VERSION = '0.6_03';
 @subs = qw(exact_wrap fuzzy_wrap wrap_smart);
 @EXPORT_OK = @subs;
 %EXPORT_TAGS = ('all' => [ @subs ]);
@@ -128,7 +128,7 @@ sub _fuzzy_wrap
     my $begin = $start_offset;
     foreach my $offset (@offsets) {
         my $range = $offset - $begin;
-        if ($text =~ /\G(.{$range}) (?=\S)/g) {
+        if ($text =~ /\G(.{$range}) (?=[^ ])/g) {
             push @chunks, $1;
         }
         $begin = $offset + $skip_space;
