@@ -1,5 +1,9 @@
 Revision history for Perl extension Text::Wrap::Smart.
 
+0.7  2016-10-14  <schubiger@cpan.org>
+
+ - Merged development version to stable.
+
 0.6_03  2016-10-11  <schubiger@cpan.org>
 
  - Adjust lookahead assertion of chunk extracting regex.
