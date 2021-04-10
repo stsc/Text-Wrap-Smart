@@ -2,7 +2,6 @@
 
 use strict;
 use warnings;
-use boolean qw(true);
 
 use Test::More tests => 12 * 2;
 use Text::Wrap::Smart qw(fuzzy_wrap);
