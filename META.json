@@ -35,10 +35,10 @@
    "provides" : {
       "Text::Wrap::Smart" : {
          "file" : "lib/Text/Wrap/Smart.pm",
-         "version" : "0.8"
+         "version" : "0.8_01"
       }
    },
-   "release_status" : "stable",
+   "release_status" : "testing",
    "resources" : {
       "license" : [
          "http://dev.perl.org/licenses/"
@@ -47,6 +47,6 @@
          "url" : "https://github.com/stsc/Text-Wrap-Smart"
       }
    },
-   "version" : "0.8",
+   "version" : "0.8_01",
    "x_serialization_backend" : "JSON::PP version 2.97001"
 }

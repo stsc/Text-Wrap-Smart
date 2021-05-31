@@ -1,5 +1,13 @@
 Revision history for Perl extension Text::Wrap::Smart.
 
+0.8_01  2021-05-31  <schubiger@cpan.org>
+
+ - Preprocess text; add tests.
+
+ - Return early when empty string.
+
+ - t/exact_wrap.t: correct test name.
+
 0.8  2021-04-11  <schubiger@cpan.org>
 
  - Merged development version to stable.
